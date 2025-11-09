@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("partials/head", {title}) %>
+  <body>
+    <h1>TinyTalks 💬</h1>
+    <a href="/new" class="btn">&plus; Add a Message</a>
+    <ul>
+      <% messages.forEach(msg => { %>
+      <li>
+        <strong><%= msg.user %>:</strong>
+        <%= msg.text %>
+        <small>(<%= msg.added.toLocaleString() %>)</small>
+      </li>
+      <% }) %>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "tiny-talks",
+  "version": "1.0.0",
+  "description": "TinyTalks is a simple message board app built with Node.js, Express, and EJS. Users can post short messages that appear instantly on the homepage. It's a lightweight project focused on routing, templating, and handling form data in Express.",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --watch app.js"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "ejs"
+  ],
+  "author": "Sameer Ali",
+  "license": "ISC",
+  "packageManager": "pnpm@10.20.0",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  }
+}
