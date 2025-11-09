@@ -2,8 +2,12 @@
 <html lang="en">
   <%- include("partials/head", {title}) %>
   <body>
-    <h1>TinyTalks 💬</h1>
-    <p>😢<%= title %></p>
-    <a href="/" class="btn">⬅️ Back to home</a>
+    <div class="main-container">
+      <%- include("partials/header") %>
+      <h2 class="error">😢<%= title %></h2>
+      <div class="back-link">
+        <a href="/">&leftarrow; Back to home</a>
+      </div>
+    </div>
   </body>
 </html>

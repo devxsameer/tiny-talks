@@ -2,26 +2,27 @@
 <html lang="en">
   <%- include("partials/head", {title}) %>
   <body>
-    <h1>TinyTalks 💬</h1>
-    <a href="/new" class="btn">&plus; Add a Message</a>
-    <ul>
-      <% messages.forEach((msg) => { %>
-      <li>
-        <strong><%= msg.user %>:</strong>
-        <%= msg.text %>
-        <small>(<%= msg.formattedDate %>)</small>
+    <div class="main-container">
+      <%- include("partials/header") %>
+      <ul>
+        <% messages.forEach((msg) => { %>
+        <li>
+          <div>
+            <strong><%= msg.user %>:</strong>
+            <%= msg.text %>
+            <small>(<%= msg.formattedDate %>)</small>
+          </div>
+          <div class="message-side">
+            <a href="/message/<%= msg.id %>" class="view-link">View</a>
 
-        <a href="/message/<%= msg.id %>" class="view-link">👁️ View</a>
-
-        <form
-          action="/message/<%= msg.id %>/delete"
-          method="POST"
-          style="display: inline"
-        >
-          <button type="submit" class="delete-btn">🗑️ Delete</button>
-        </form>
-      </li>
-      <% }) %>
-    </ul>
+            <form action="/message/<%= msg.id %>/delete" method="POST">
+              <button type="submit" class="delete-btn">Delete</button>
+            </form>
+          </div>
+        </li>
+        <% }) %>
+        <a href="/new" class="btn">&plus; Add a Message</a>
+      </ul>
+    </div>
   </body>
 </html>

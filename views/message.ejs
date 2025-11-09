@@ -6,20 +6,23 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1><%= message.user %> says 💬</h1>
+    <div class="main-container">
+      <%- include("partials/header") %>
+      <p>💬 <%= message.user %> says</p>
 
-    <p class="message-text"><%= message.text %></p>
-    <small>Posted on <%= message.formattedDate %></small>
+      <h1 class="message-text"><%= message.text %></h1>
+      <small>Posted on <%= message.formattedDate %></small>
 
-    <form
-      action="/message/<%= message.id %>/delete"
-      method="POST"
-      style="margin-top: 1rem"
-    >
-      <button type="submit" class="delete-btn">🗑️ Delete</button>
-    </form>
-
-    <br /><br />
-    <a href="/">⬅️ Back to all messages</a>
+      <form
+        action="/message/<%= message.id %>/delete"
+        method="POST"
+        style="margin-top: 0.4rem"
+      >
+        <button type="submit" class="delete-btn">Delete</button>
+      </form>
+      <div class="back-link">
+        <a href="/">&leftarrow; Back to home</a>
+      </div>
+    </div>
   </body>
 </html>
