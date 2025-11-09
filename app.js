@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Routes
 app.use("/", indexRouter);
 app.use((req, res) => {
-  res.status(404).render("404", { title: "404" });
+  res.status(404).render("404", { title: "Page Not Found" });
 });
 
 // Start server

@@ -50,3 +50,15 @@ button {
   padding: 0.5rem 1rem;
   border-radius: 4px;
 }
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #b02a37;
+}

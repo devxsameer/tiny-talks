@@ -5,11 +5,21 @@
     <h1>TinyTalks 💬</h1>
     <a href="/new" class="btn">&plus; Add a Message</a>
     <ul>
-      <% messages.forEach(msg => { %>
+      <% messages.forEach((msg) => { %>
       <li>
         <strong><%= msg.user %>:</strong>
         <%= msg.text %>
-        <small>(<%= msg.added.toLocaleString() %>)</small>
+        <small>(<%= msg.formattedDate %>)</small>
+
+        <a href="/message/<%= msg.id %>" class="view-link">👁️ View</a>
+
+        <form
+          action="/message/<%= msg.id %>/delete"
+          method="POST"
+          style="display: inline"
+        >
+          <button type="submit" class="delete-btn">🗑️ Delete</button>
+        </form>
       </li>
       <% }) %>
     </ul>
