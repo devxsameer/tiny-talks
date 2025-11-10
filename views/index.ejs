@@ -2,8 +2,8 @@
 <html lang="en">
   <%- include("partials/head", {title}) %>
   <body>
+    <%- include("partials/header") %>
     <div class="main-container">
-      <%- include("partials/header") %>
       <ul>
         <% messages.forEach((msg) => { %>
         <li>
@@ -21,8 +21,11 @@
           </div>
         </li>
         <% }) %>
-        <a href="/new" class="btn">&plus; Add a Message</a>
       </ul>
+      <div class="add-btn-wrapper">
+        <a href="/new" class="add-btn">&plus; Add a Message</a>
+      </div>
     </div>
+    <%- include("partials/footer") %>
   </body>
 </html>

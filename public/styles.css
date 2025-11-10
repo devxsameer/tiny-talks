@@ -16,12 +16,25 @@ body {
   font-style: normal;
   background: #161616;
   color: #f3f3f3;
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
 }
 /* Global Styling */
-.main-container {
+body > * {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 2rem;
+  width: 100%;
+}
+.add-btn-wrapper {
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem;
+}
+.main-container {
+  padding: 0 1rem;
+  flex: 1;
+  overflow-y: auto;
 }
 a {
   color: inherit;
@@ -125,4 +138,8 @@ textarea {
   padding: 0.5rem;
   font-size: 1rem;
   font-family: inherit;
+}
+.footer {
+  text-align: center;
+  padding: 0.5rem;
 }

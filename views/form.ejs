@@ -2,8 +2,8 @@
 <html lang="en">
   <%- include("partials/head", {title}) %>
   <body>
+    <%- include("partials/header") %>
     <div class="main-container">
-      <%- include("partials/header") %>
       <div class="new">
         <form action="/new" method="POST">
           <h2>Post a New Message ✉️</h2>
@@ -20,5 +20,6 @@
         </div>
       </div>
     </div>
+    <%- include("partials/footer") %>
   </body>
 </html>
