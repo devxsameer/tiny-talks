@@ -1,36 +1,27 @@
 import { Router } from "express";
 import { format } from "date-fns";
-import { v4 as uuidv4 } from "uuid"; // for unique IDs
+import pool from "../db/pool.js";
 
 const indexRouter = Router();
 
-// In-memory message store
-const messages = [
-  {
-    id: uuidv4(),
-    text: "Hi there!",
-    user: "Amando",
-    added: new Date(),
-  },
-  {
-    id: uuidv4(),
-    text: "Hello World!",
-    user: "Charles",
-    added: new Date(),
-  },
-];
-
 // Helper function to format dates
-const formatDate = (date) => format(date, "PPpp");
+const formatDate = (date) => format(new Date(date), "PPpp");
 
 // 🏠 Home page – list all messages
-indexRouter.get("/", (req, res) => {
-  const formattedMessages = messages.map((msg) => ({
-    ...msg,
-    formattedDate: formatDate(msg.added),
-  }));
-
-  res.render("index", { title: "TinyTalks", messages: formattedMessages });
+indexRouter.get("/", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT id, user_name, text, added FROM messages ORDER BY added DESC;"
+    );
+    const messages = result.rows.map((msg) => ({
+      ...msg,
+      formattedDate: formatDate(msg.added),
+    }));
+    res.render("index", { title: "TinyTalks", messages });
+  } catch (err) {
+    console.error("❌ Error fetching messages:", err);
+    res.status(500).send("Database error");
+  }
 });
 
 // 🆕 Form to add a new message
@@ -39,33 +30,57 @@ indexRouter.get("/new", (req, res) => {
 });
 
 // 📩 Handle form submission
-indexRouter.post("/new", (req, res) => {
+indexRouter.post("/new", async (req, res) => {
   const { user, text } = req.body;
-  if (user && text) {
-    messages.push({ id: uuidv4(), user, text, added: new Date() });
+  if (!user || !text) return res.redirect("/new");
+
+  try {
+    await pool.query(
+      "INSERT INTO messages (user_name, text, added) VALUES ($1, $2, NOW());",
+      [user, text]
+    );
+    res.redirect("/");
+  } catch (err) {
+    console.error("❌ Error inserting message:", err);
+    res.status(500).send("Database error");
   }
-  res.redirect("/");
 });
 
 // 👁️ View an individual message
-indexRouter.get("/message/:id", (req, res) => {
-  const message = messages.find((msg) => msg.id === req.params.id);
-  if (!message) {
-    return res.status(404).render("404", { title: "Message Not Found" });
+indexRouter.get("/message/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query("SELECT * FROM messages WHERE id = $1;", [
+      id,
+    ]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).render("404", { title: "Message Not Found" });
+    }
+
+    const message = result.rows[0];
+    message.formattedDate = formatDate(message.added);
+
+    res.render("message", {
+      title: `Message by ${message.user_name}`,
+      message,
+    });
+  } catch (err) {
+    console.error("❌ Error fetching message:", err);
+    res.status(500).send("Database error");
   }
-  res.render("message", {
-    title: `Message by ${message.user}`,
-    message: { ...message, formattedDate: formatDate(message.added) },
-  });
 });
 
 // 🗑️ Delete a message
-indexRouter.post("/message/:id/delete", (req, res) => {
-  const index = messages.findIndex((msg) => msg.id === req.params.id);
-  if (index !== -1) {
-    messages.splice(index, 1);
+indexRouter.post("/message/:id/delete", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query("DELETE FROM messages WHERE id = $1;", [id]);
+    res.redirect("/");
+  } catch (err) {
+    console.error("❌ Error deleting message:", err);
+    res.status(500).send("Database error");
   }
-  res.redirect("/");
 });
 
 export default indexRouter;
